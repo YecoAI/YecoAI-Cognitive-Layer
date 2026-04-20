@@ -1,8 +1,9 @@
 <div align="center">
 
-# 🧠 YecoAI Mini-LLM Cognitive Layer
+# 🧠 YecoAI Cognitive Layer
 
-### Ultra-lightweight cognitive protection for Large Language Models
+### **LLMs fail silently. This layer doesn’t.**
+
 **Anti-loop • Amnesia detection • Semantic stability**
 
 <br/>
@@ -22,26 +23,42 @@ Developed by **[www.yecoai.com](https://www.yecoai.com)**
 
 ---
 
-## ✨ What is the Cognitive Layer?
+## ✨ Why do you need it?
 
-The **YecoAI Mini-LLM Cognitive Layer** is a lightweight, deterministic guard module designed to sit on top of any LLM (GPT, Claude, Llama, etc.).
+When LLMs enter production, they fail in ways that traditional monitoring misses. They loop, they forget context (Amnesia), and they degrade into "word salad".
 
-It doesn't replace the model; instead, it acts as a **real-time monitoring system** that observes, evaluates, and stabilizes the model's output before it reaches the end user or an autonomous agent.
+| Critical Failure | What happens? | How we fix it |
+| :--- | :--- | :--- |
+| **🔄 Infinite Loops** | Model repeats the same token or phrase forever. | **Loop Guard** detects structural and n-gram repetitions. |
+| **😶 Context Amnesia** | Model ignores initial instructions or shifts topic. | **Keyword Persistence** monitors prompt-to-output alignment. |
+| **📉 Semantic Drift** | Output becomes nonsensical or loses coherence. | **Stability Metrics** evaluate entropy and word distribution. |
 
-### Solves critical production issues:
-- **Infinite Loops:** Blocks obsessive repetition of tokens or phrases.
-- **Context Loss (Amnesia):** Detects when the model "forgets" initial instructions or collapses semantically.
-- **Semantic Degradation:** Identifies "word salad" in very long conversations.
-- **Agent Instability:** Protects autonomous workflows from erroneous recursive behaviors.
-- **Burstiness Detection (v1.0.0):** Identifies irregular repetition patterns that traditional n-gram detectors miss.
-- **Keyword Persistence Tracking (v1.0.0):** Monitors prompt-to-output topic consistency to prevent deep context loss (Amnesia).
+---
+
+## 📊 Benchmarks & Methodology (v1.0.0)
+
+> **Engineering Note:** These results are derived from our **Robust 25-Case Stress Test**, specifically designed to simulate production failure modes that traditional LLM monitors often miss.
+
+### Methodology
+- **Stress Dataset:** 25 curated edge cases (Loops, Amnesia, Style Drift, False Positive stress tests).
+- **Execution:** Pure Python deterministic evaluation (no LLM-calling-LLM overhead).
+- **Objective:** High-precision detection of catastrophic failures with negligible latency.
+
+| Metric | Result | Context |
+| :--- | :--- | :--- |
+| **Total Accuracy** | **96.00%** | 24/25 edge cases correctly identified. |
+| **Loop Detection (F1)** | **1.00** | Zero false negatives on token/phrase loops. |
+| **Normal (F1)** | **0.96** | High transparency for valid creative output. |
+| **Amnesia (F1)** | **0.92** | Detects context loss within ~0.5ms. |
+| **Average RAM** | **24.95 MB** | Minimal footprint for edge/container. |
+| **Latency (Avg)** | **1.76 ms** | Real-time protection without user-perceived delay. |
 
 ---
 
 ## 🧩 Core Capabilities
 
 - 🔁 **Multi-level Loop Detector**
-  Analyzes structural patterns, n-grams, and **Burstiness** with a precision (F1) of 1.00.
+  Analyzes structural patterns, n-grams, and **Burstiness** (irregular repetitions).
 - 🧠 **Amnesia Detection**
   Monitors contextual continuity and semantic coherence using **Keyword Persistence Tracking**.
 - 🧯 **Semantic Stability Guard**
@@ -109,21 +126,6 @@ while agent_running:
         
     agent.execute(action)
 ```
-
----
-
-## 📊 Benchmarks (v1.0.0 - Robust 25-Case Validation)
-
-| Metric | Result |
-| :--- | :--- |
-| **Total Accuracy** | **96.00%** (25 Complex Cases) |
-| **Loop Detection (F1)** | **1.00** |
-| **Normal Detection (F1)** | **0.96** |
-| **Amnesia Detection (F1)** | **0.92** |
-| **Average RAM** | **24.95 MB** |
-| **Latency (Avg)** | **1.76 ms** |
-| **Latency (1k tokens)** | **11.29 ms** |
-
 ---
 
 ## 🤖 Supported Models & Ecosystems
@@ -147,26 +149,27 @@ graph TD
     C -->|Amnesia| F[Context Reset]
 ```
 
----
-
-## 🏷️ Attribution & Credits (Required)
-
-This project is developed and maintained by **YecoAI**.
-Attribution is **REQUIRED** for any usage, including:
-- Modified versions
-- Commercial products and SaaS platforms
-- Research publications
-
-You must retain this README, the `LICENSE` file, and the `NOTICE` file.
 
 ---
 
 ## 📄 License
 
-Distributed under the **Apache License 2.0**.
-✔ Commercial use allowed
-✔ Modifications allowed
-✔ Redistribution allowed
+This project is available under a dual licensing model:
+
+### 🟢 Open Source (Apache 2.0)
+Free for:
+- Personal use
+- Research
+- Educational purposes
+
+✔ Modification allowed  
+✔ Redistribution allowed  
+
+### 🔴 Commercial Use
+
+Use in commercial environments (SaaS, paid products, enterprise systems) requires a commercial license.
+
+See: [COMMERCIAL_LICENSE.md](./COMMERCIAL_LICENSE.md)
 
 ---
 
