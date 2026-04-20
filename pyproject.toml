@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yecoai-cognitive-layer"
+version = "1.0.0"
+description = "Lightweight cognitive protection layer for LLM systems"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [
+  { name = "YecoAI", email = "marco.n@yecoai.com" }
+]
+
+keywords = ["ai", "llm", "guard", "cognitive", "loop-detection"]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/YecoAI/yecoai-mini-llm-layer"
+Source = "https://github.com/YecoAI/yecoai-mini-llm-layer"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"yecoai_cognitive_layer" = ["*.json"]

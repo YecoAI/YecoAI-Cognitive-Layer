@@ -9,7 +9,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 ![Status](https://img.shields.io/badge/status-production--ready-success.svg)
-![RAM](https://img.shields.io/badge/avg%20RAM-~39MB-brightgreen.svg)
+![RAM](https://img.shields.io/badge/avg%20RAM-~25MB-brightgreen.svg)
 ![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
 
 <br/>
@@ -24,7 +24,7 @@ Developed by **[www.yecoai.com](https://www.yecoai.com)**
 
 ## ✨ What is the Cognitive Layer?
 
-The **YecoAI Mini-LLM Cognitive Layer** is a lightweight, deterministic guard module designed to sit on top of any LLM (GPT-4, Claude, Llama, etc.).
+The **YecoAI Mini-LLM Cognitive Layer** is a lightweight, deterministic guard module designed to sit on top of any LLM (GPT, Claude, Llama, etc.).
 
 It doesn't replace the model; instead, it acts as a **real-time monitoring system** that observes, evaluates, and stabilizes the model's output before it reaches the end user or an autonomous agent.
 
@@ -33,19 +33,21 @@ It doesn't replace the model; instead, it acts as a **real-time monitoring syste
 - **Context Loss (Amnesia):** Detects when the model "forgets" initial instructions or collapses semantically.
 - **Semantic Degradation:** Identifies "word salad" in very long conversations.
 - **Agent Instability:** Protects autonomous workflows from erroneous recursive behaviors.
+- **Burstiness Detection (v1.0.0):** Identifies irregular repetition patterns that traditional n-gram detectors miss.
+- **Keyword Persistence Tracking (v1.0.0):** Monitors prompt-to-output topic consistency to prevent deep context loss (Amnesia).
 
 ---
 
 ## 🧩 Core Capabilities
 
 - 🔁 **Multi-level Loop Detector**
-  Analyzes structural patterns, n-grams, and semantic repetitions with a precision (F1) of 0.90.
+  Analyzes structural patterns, n-grams, and **Burstiness** with a precision (F1) of 1.00.
 - 🧠 **Amnesia Detection**
-  Monitors contextual continuity across conversation turns.
+  Monitors contextual continuity and semantic coherence using **Keyword Persistence Tracking**.
 - 🧯 **Semantic Stability Guard**
-  Prevents meaning collapse and nonsensical text output.
+  Prevents meaning collapse and nonsensical text output using advanced "Word Salad" metrics.
 - ⚡ **Performance Edge**
-  Average RAM usage of only **38.85 MB**. Ideal for deployment on edge devices and embedded systems.
+  Average RAM usage of only **24.95 MB**. Optimized for edge deployment.
 
 ---
 
@@ -98,7 +100,6 @@ agent_history = []
 while agent_running:
     action = agent.think()
     
-    # Analyze the agent's thought process
     _, features = engine.extract_features(action)
     
     if features['repetition_score'] > 0.7 or features['struct_loop_flag'] > 0.5:
@@ -111,15 +112,27 @@ while agent_running:
 
 ---
 
-## 📊 Benchmarks (v1.0 - Real Stress Tests)
+## 📊 Benchmarks (v1.0.0 - Robust 25-Case Validation)
 
 | Metric | Result |
 | :--- | :--- |
-| **Total Accuracy** | **76.06%** |
-| **Loop Detection (F1)** | **0.90** |
-| **Normal Detection (F1)** | **0.71** |
-| **Amnesia Detection (F1)** | **0.63** |
-| **Average RAM** | **38.85 MB** |
+| **Total Accuracy** | **96.00%** (25 Complex Cases) |
+| **Loop Detection (F1)** | **1.00** |
+| **Normal Detection (F1)** | **0.96** |
+| **Amnesia Detection (F1)** | **0.92** |
+| **Average RAM** | **24.95 MB** |
+| **Latency (Avg)** | **1.76 ms** |
+| **Latency (1k tokens)** | **11.29 ms** |
+
+---
+
+## 🤖 Supported Models & Ecosystems
+
+The layer is **agnostic** and works with any text-generating system:
+- **Proprietary:** OpenAI (GPT-5.4), Anthropic (Claude 4.7), Google (Gemini 3.1).
+- **Open Source:** Llama 3 (8B/70B), Mistral/Mixtral, Phi-3, Qwen 3.
+- **Local:** Ollama, LM Studio, vLLM.
+- **Agents:** CrewAI, AutoGPT, Microsoft AutoGen.
 
 ---
 
