@@ -12,6 +12,7 @@
 ![Status](https://img.shields.io/badge/status-production--ready-success.svg)
 ![RAM](https://img.shields.io/badge/avg%20RAM-~25MB-brightgreen.svg)
 ![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
+![Go](https://img.shields.io/badge/go-1.21+-00ADD8.svg)
 
 <br/>
 
@@ -71,11 +72,25 @@ When LLMs enter production, they fail in ways that traditional monitoring misses
 ## 🚀 Practical Examples
 
 ### 1. Installation
+
+#### Python
 ```bash
 pip install yecoai-cognitive-layer
 ```
 
+#### Go
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/YecoAI-Cognitive-Layer.git
+cd YecoAI-Cognitive-Layer/Go-Version
+
+# Run the example
+go run example.go
+```
+
 ### 2. Protecting an LLM Chatbot (Production Pattern)
+
+#### Python
 This example shows how to use the layer as a "Validator" for a standard LLM response.
 
 ```python
@@ -106,6 +121,43 @@ def get_safe_llm_response(prompt):
 
 # Usage
 print(get_safe_llm_response("Write a long story about..."))
+```
+
+#### Go
+```go
+package main
+
+import (
+	"fmt"
+	"yecoai-cognitive-layer/yecoai"
+)
+
+func getSafeLLMResponse(prompt string) string {
+	engine := yecoai.NewFeatureEngine()
+	model, err := yecoai.GetDefaultModel()
+	if err != nil {
+		return "⚠️ [System Error] Failed to load model."
+	}
+
+	llmOutput := callYourLLMApi(prompt)
+	
+	result := engine.ExtractFeatures(llmOutput, prompt)
+	prediction := model.Predict(result.Vector, result.Features)
+
+	if prediction.Prediction == "Loop" {
+		return "⚠️ [System Blocked a Loop] Please rephrase your request."
+	}
+	
+	if prediction.Prediction == "Amnesia" || result.Features["semantic_coherence"] < 0.25 {
+		return "🧠 [Context Loss Detected] I'm having trouble following. Let's restart."
+	}
+
+	return llmOutput
+}
+
+func main() {
+	fmt.Println(getSafeLLMResponse("Write a long story about..."))
+}
 ```
 
 ### 3. Agent Self-Correction Loop
